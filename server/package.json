@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "scripts": {
     "generate": "gql-gen",
     "generate:watch": "nodemon --exec yarn generate -e graphql",
@@ -14,6 +11,9 @@
     "dev": "concurrently \"yarn generate:watch\" \"yarn start:server:watch\"",
     "start": "yarn generate && yarn start:server"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.4",
