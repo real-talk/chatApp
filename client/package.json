@@ -18,10 +18,12 @@
     "typescript": "^3.3.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"yarn generate:watch\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate": "gql-gen",
+    "generate:watch": "nodemon --exec yarn generate -e graphql"
   },
   "eslintConfig": {
     "extends": "react-app"
