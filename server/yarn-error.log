@@ -1,0 +1,66 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\markm\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\WINDOWS\System32\OpenSSH;C:\Program Files\MongoDB\Server\4.0\bin;C:\Program Files (x86)\Yarn\bin;C:\Users\markm\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Users\markm\AppData\Roaming\npm;C:\Users\markm\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\markm\AppData\Local\GitHubDesktop\bin;C:\Users\markm\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  8.11.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, scandir 'C:\Users\markm\Desktop\real-talk\server\node_modules\@types'
+
+npm manifest: 
+  {
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "generate": "gql-gen",
+      "generate:watch": "nodemon --exec yarn generate -e graphql",
+      "start:server": "ts-node index.ts",
+      "start:server:watch": "nodemon --exec yarn start:server -e ts",
+      "dev": "concurrently \"yarn generate:watch\" \"yarn start:server:watch\"",
+      "start": "yarn generate && yarn start:server"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/body-parser": "^1.17.0",
+      "@types/cors": "^2.8.4",
+      "@types/express": "^4.16.1",
+      "@types/graphql": "14.0.4",
+      "@types/node": "10.12.23",
+      "concurrently": "4.1.0",
+      "graphql-code-generator": "0.16.0",
+      "graphql-codegen-typescript-common": "0.16.0",
+      "graphql-codegen-typescript-resolvers": "0.16.0",
+      "nodemon": "1.18.9",
+      "ts-node": "8.0.1",
+      "typescript": "3.2.4"
+    },
+    "dependencies": {
+      "@types/graphql-iso-date": "^3.3.1",
+      "apollo-env": "0.3.1",
+      "apollo-server-express": "2.3.1",
+      "body-parser": "1.18.3",
+      "cors": "2.8.5",
+      "express": "4.16.4",
+      "graphql": "14.0.2",
+      "graphql-iso-date": "^3.6.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
