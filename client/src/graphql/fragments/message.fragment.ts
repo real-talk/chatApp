@@ -5,9 +5,12 @@ export default gql`
     id
     chat {
       id
+      picture
+      name
     }
     sender {
       id
+      picture
       name
     }
     content

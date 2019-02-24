@@ -12,6 +12,8 @@ export default gql `
     }
     owner {
       id
+      name
+      picture
     }
     lastMessage {
       ...Message

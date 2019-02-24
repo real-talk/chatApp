@@ -11,7 +11,7 @@ interface RecipientConstructor {
 }
 
 @Entity()
-export default class Recipient {
+export class Recipient {
   @ManyToOne(type => User, user => user.recipients, { primary: true })
   user: User;
 

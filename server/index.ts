@@ -1,30 +1,44 @@
-import { ApolloServer } from 'apollo-server-express'
+import 'reflect-metadata'
+
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
-import gql from 'graphql-tag'
+import { ApolloServer } from 'apollo-server-express'
 import { createServer } from 'http'
-import schema from './schema'
+import { createConnection } from 'typeorm'
+import { addSampleData } from './db'
+import { AppModule } from './modules/app.module'
 
 const PORT = 4000
 
-const app = express()
+createConnection().then((connection) => {
+  if (process.argv.includes('--add-sample-data')) {
+    addSampleData(connection)
+  }
+  
+  const app = express();
 
-app.use(cors())
-app.use(bodyParser.json())
+  app.use(cors());
+  app.use(bodyParser.json());
 
-const apollo = new ApolloServer({ schema })
+  const { schema, context } = AppModule.forRoot({ connection, app})
 
-apollo.applyMiddleware({
-  app,
-  path: '/graphql',
-})
+  const apollo = new ApolloServer({
+    schema,
+    context,
+  })
 
-// Wrap the Express server
-const ws = createServer(app)
+  apollo.applyMiddleware({
+    app,
+    path: '/graphql',
+  })
 
-apollo.installSubscriptionHandlers(ws)
+  // Wrap the Express server
+  const ws = createServer(app);
 
-ws.listen(PORT, () => {
-  console.log(`Apollo Server is now running on http://localhost:${PORT}`)
+  apollo.installSubscriptionHandlers(ws)
+
+  ws.listen(PORT, () => {
+    console.log(`The motha fukin server is now LIVE on http://localhost:${PORT}! Skeet Skeet`)
+  })
 })

@@ -6,7 +6,6 @@ export enum MessageType {
   Picture = "PICTURE"
 }
 
-export type Date = any;
 import {
   GraphQLResolveInfo,
   GraphQLScalarType,
@@ -18,6 +17,8 @@ import { Chat } from "./entity/chat";
 import { Message } from "./entity/message";
 
 import { User } from "./entity/user";
+
+import { Context } from "./context";
 
 export type Resolver<Result, Parent = {}, Context = {}, Args = {}> = (
   parent: Parent,
@@ -69,10 +70,10 @@ export type DirectiveResolverFn<TResult, TArgs = {}, TContext = {}> = (
 ) => TResult | Promise<TResult>;
 
 export namespace QueryResolvers {
-  export interface Resolvers<Context = {}, TypeParent = {}> {
+  export interface Resolvers<Context = Context, TypeParent = {}> {
     users?: UsersResolver<Maybe<User[]>, TypeParent, Context>;
 
-    chats?: ChatsResolver<Maybe<Chat[]>, TypeParent, Context>;
+    chats?: ChatsResolver<Chat[], TypeParent, Context>;
 
     chat?: ChatResolver<Maybe<Chat>, TypeParent, Context>;
   }
@@ -80,17 +81,17 @@ export namespace QueryResolvers {
   export type UsersResolver<
     R = Maybe<User[]>,
     Parent = {},
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type ChatsResolver<
-    R = Maybe<Chat[]>,
+    R = Chat[],
     Parent = {},
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type ChatResolver<
     R = Maybe<Chat>,
     Parent = {},
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context, ChatArgs>;
   export interface ChatArgs {
     chatId: string;
@@ -98,7 +99,7 @@ export namespace QueryResolvers {
 }
 
 export namespace UserResolvers {
-  export interface Resolvers<Context = {}, TypeParent = User> {
+  export interface Resolvers<Context = Context, TypeParent = User> {
     id?: IdResolver<string, TypeParent, Context>;
 
     name?: NameResolver<Maybe<string>, TypeParent, Context>;
@@ -108,35 +109,33 @@ export namespace UserResolvers {
     phone?: PhoneResolver<Maybe<string>, TypeParent, Context>;
   }
 
-  export type IdResolver<R = string, Parent = User, Context = {}> = Resolver<
-    R,
-    Parent,
-    Context
-  >;
+  export type IdResolver<
+    R = string,
+    Parent = User,
+    Context = Context
+  > = Resolver<R, Parent, Context>;
   export type NameResolver<
     R = Maybe<string>,
     Parent = User,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type PictureResolver<
     R = Maybe<string>,
     Parent = User,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type PhoneResolver<
     R = Maybe<string>,
     Parent = User,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace ChatResolvers {
-  export interface Resolvers<Context = {}, TypeParent = Chat> {
+  export interface Resolvers<Context = Context, TypeParent = Chat> {
     id?: IdResolver<string, TypeParent, Context>;
 
     name?: NameResolver<Maybe<string>, TypeParent, Context>;
-
-    updatedAt?: UpdatedAtResolver<Maybe<Date>, TypeParent, Context>;
 
     picture?: PictureResolver<Maybe<string>, TypeParent, Context>;
 
@@ -149,47 +148,44 @@ export namespace ChatResolvers {
     messages?: MessagesResolver<(Maybe<Message>)[], TypeParent, Context>;
 
     lastMessage?: LastMessageResolver<Maybe<Message>, TypeParent, Context>;
+
+    updatedAt?: UpdatedAtResolver<Date, TypeParent, Context>;
   }
 
-  export type IdResolver<R = string, Parent = Chat, Context = {}> = Resolver<
-    R,
-    Parent,
-    Context
-  >;
+  export type IdResolver<
+    R = string,
+    Parent = Chat,
+    Context = Context
+  > = Resolver<R, Parent, Context>;
   export type NameResolver<
     R = Maybe<string>,
     Parent = Chat,
-    Context = {}
-  > = Resolver<R, Parent, Context>;
-  export type UpdatedAtResolver<
-    R = Maybe<Date>,
-    Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type PictureResolver<
     R = Maybe<string>,
     Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type AllTimeMembersResolver<
     R = User[],
     Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type ListingMembersResolver<
     R = User[],
     Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type OwnerResolver<
     R = Maybe<User>,
     Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type MessagesResolver<
     R = (Maybe<Message>)[],
     Parent = Chat,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context, MessagesArgs>;
   export interface MessagesArgs {
     amount?: Maybe<number>;
@@ -198,12 +194,17 @@ export namespace ChatResolvers {
   export type LastMessageResolver<
     R = Maybe<Message>,
     Parent = Chat,
-    Context = {}
+    Context = Context
+  > = Resolver<R, Parent, Context>;
+  export type UpdatedAtResolver<
+    R = Date,
+    Parent = Chat,
+    Context = Context
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace MessageResolvers {
-  export interface Resolvers<Context = {}, TypeParent = Message> {
+  export interface Resolvers<Context = Context, TypeParent = Message> {
     id?: IdResolver<string, TypeParent, Context>;
 
     sender?: SenderResolver<User, TypeParent, Context>;
@@ -221,45 +222,45 @@ export namespace MessageResolvers {
     ownership?: OwnershipResolver<boolean, TypeParent, Context>;
   }
 
-  export type IdResolver<R = string, Parent = Message, Context = {}> = Resolver<
-    R,
-    Parent,
-    Context
-  >;
+  export type IdResolver<
+    R = string,
+    Parent = Message,
+    Context = Context
+  > = Resolver<R, Parent, Context>;
   export type SenderResolver<
     R = User,
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
-  export type ChatResolver<R = Chat, Parent = Message, Context = {}> = Resolver<
-    R,
-    Parent,
-    Context
-  >;
+  export type ChatResolver<
+    R = Chat,
+    Parent = Message,
+    Context = Context
+  > = Resolver<R, Parent, Context>;
   export type ContentResolver<
     R = string,
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type CreatedAtResolver<
     R = Date,
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type TypeResolver<
     R = number,
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type HoldersResolver<
     R = User[],
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
   export type OwnershipResolver<
     R = boolean,
     Parent = Message,
-    Context = {}
+    Context = Context
   > = Resolver<R, Parent, Context>;
 }
 
@@ -267,7 +268,7 @@ export namespace MessageResolvers {
 export type SkipDirectiveResolver<Result> = DirectiveResolverFn<
   Result,
   SkipDirectiveArgs,
-  {}
+  Context
 >;
 export interface SkipDirectiveArgs {
   /** Skipped when true. */
@@ -278,7 +279,7 @@ export interface SkipDirectiveArgs {
 export type IncludeDirectiveResolver<Result> = DirectiveResolverFn<
   Result,
   IncludeDirectiveArgs,
-  {}
+  Context
 >;
 export interface IncludeDirectiveArgs {
   /** Included when true. */
@@ -289,7 +290,7 @@ export interface IncludeDirectiveArgs {
 export type DeprecatedDirectiveResolver<Result> = DirectiveResolverFn<
   Result,
   DeprecatedDirectiveArgs,
-  {}
+  Context
 >;
 export interface DeprecatedDirectiveArgs {
   /** Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/). */
@@ -300,7 +301,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<Date, any> {
   name: "Date";
 }
 
-export interface IResolvers<Context = {}> {
+export interface IResolvers<Context = Context> {
   Query?: QueryResolvers.Resolvers<Context>;
   User?: UserResolvers.Resolvers<Context>;
   Chat?: ChatResolvers.Resolvers<Context>;

@@ -1,13 +1,13 @@
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import gql from 'graphql-tag'
-import * as moment from 'moment'
-import * as React from 'react'
-import { useQuery } from 'react-apollo-hooks'
-import * as ReactDOM from 'react-dom'
-import styled from 'styled-components'
-import * as fragments from '../../graphql/fragments'
-import { ChatsListQuery } from '../../graphql/types'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import gql from 'graphql-tag';
+import * as moment from 'moment';
+import * as React from 'react';
+import { useQuery } from 'react-apollo-hooks';
+import * as ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import * as fragments from '../../graphql/fragments';
+import { ChatsListQuery } from '../../graphql/types';
 
 const Style = styled.div`
   height: calc(100% - 56px);
@@ -57,15 +57,21 @@ const query = gql`
   query ChatsListQuery {
     chats {
       ...Chat
+      
     }
   }
 
   ${fragments.chat}
 `
 export default () => {
+  
   const {
     data: { chats },
   } = useQuery<ChatsListQuery.Query>(query)
+
+  console.log("test")
+  console.log(chats);
+  
   return (
     <Style className="ChatsList">
       <List className="ChatsList-chats-list">
@@ -77,7 +83,7 @@ export default () => {
           >
             <img
               className="ChatsList-profile-pic"
-              src={chat.picture || '/assets/default-profile-pic.jpg'}
+              src={chat.picture || '/client/public/assets/default-profile-pic.jpg'}
             />
             <div className="ChatsList-info">
               <div className="ChatsList-name">{chat.name}</div>
